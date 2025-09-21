@@ -29,7 +29,11 @@ function App() {
 
   function completeTodo(id: number){
     
-    setTodos((prevTodos => prevTodos.map(todo => todo.id === id ? {...todo, completed: true} : todo)))
+    setTodos((prevTodos => prevTodos.map(todo => todo.id === id ? {...todo, completed: !todo.completed} : todo)))
+    }
+
+    function removeTodo(id:number){
+      setTodos((prevTodo) => prevTodo.filter(todo => todo.id !== id))
     }
 
 
@@ -46,10 +50,16 @@ function App() {
           <button onClick={handleAddTodo} className="flex-[1] bg-purple-800 cursor-pointer rounded-md text-sm hover:bg-purple-900 text-white">Add Todo</button>
         </div>
         <div>
-          <h1 className="text-white text-xl text-center">Todos</h1>
-          {todos.map(todo => (
-            <Todo key={todo.id} todo={todo} completeTodo={completeTodo} />
+          <h1 className="text-white text-xl text-center font-bold">Todos</h1>
+          {todos.length > 0 ? (
+            <>
+            {todos.map(todo => (
+            <Todo key={todo.id} todo={todo} completeTodo={completeTodo} removeTodo={removeTodo} />
           ))}
+          </>
+          ) : (
+            <h1 className="text-center text-white text-xl  my-2">You have completed all your tasks</h1>
+          )}
         </div>
       </div>
     </div>
