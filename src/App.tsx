@@ -1,8 +1,8 @@
-import { FaCheckCircle, FaTrash } from "react-icons/fa"
 import "./App.css"
 import { useState } from "react"
+import Todo from "./components/Todo"
 
-type Todo = {
+export type Todo = {
   id: number,
   text: string,
   completed: boolean
@@ -27,6 +27,12 @@ function App() {
     setInput("")
   }
 
+  function completeTodo(id: number){
+    
+    setTodos((prevTodos => prevTodos.map(todo => todo.id === id ? {...todo, completed: true} : todo)))
+    }
+
+
   return (
    <>
     <div className="bg-purple-950 p-2 min-h-screen flex items-center justify-center">
@@ -41,13 +47,9 @@ function App() {
         </div>
         <div>
           <h1 className="text-white text-xl text-center">Todos</h1>
-          <div className="bg-purple-800 p-2 rounded-md flex justify-between items-center my-4 text-white">
-            <p>Go to the market</p>
-            <div className="flex items-center gap-2 cursor-pointer">
-              <FaCheckCircle  className="hover:text-gray-200"/>
-              <FaTrash  className="hover:text-gray-200" />
-            </div>
-          </div>
+          {todos.map(todo => (
+            <Todo key={todo.id} todo={todo} completeTodo={completeTodo} />
+          ))}
         </div>
       </div>
     </div>
